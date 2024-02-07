@@ -14,12 +14,14 @@ start()
 
 async function petsArea() {
   const petsPromise = await fetch("https://learnwebcode.github.io/bootcamp-pet-data/pets.json")
-  const petsData = await petsPromise.json()
-  petsData.forEach(pet => {
+  const petsData = await petsPromise.json() //parse all the data fragments using json() method to store in petsData
+  petsData.forEach(pet => { //short syntax if there is only one argument given
     const clone = template.content.cloneNode(true)
     clone.querySelector("h3").textContent = pet.name
     clone.querySelector(".pet-description").textContent = pet.description
     clone.querySelector(".pet-age").textContent = createAgeText(pet.birthYear)
+
+    if (!pet.photo) pet.photo = "images/fallback.jpg" //if there is no photo, use the fallback.jpg
     clone.querySelector(".pet-card-photo img").src = pet.photo
     clone.querySelector(".pet-card-photo img").alt = `A ${pet.species} named ${pet.name}`
     wrapper.appendChild(clone)
